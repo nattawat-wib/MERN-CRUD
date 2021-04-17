@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(cors());
-app.use('/student', studentRoute);
+app.use('/students', studentRoute);
 
 // PORT
 const port = process.env.PORT || 4000;
@@ -35,12 +35,12 @@ const server = app.listen(port, () => {
 
 // ERROR 404
 app.use((req, res, next) => {
-    next(createError(404));
+    next(createError);
 })
 
 // ERROR handler
 app.use((err, req, res, next) => {
     console.error(err.message);
-    if (err.message) err.statusCode(500);
+    if (!err.statusCode) err.statusCode = 500;
     res.status(err.statusCode).send(err.message);
 })

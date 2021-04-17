@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 export default class CreateStudent extends Component {
     constructor(props) {
         super(props) 
@@ -27,10 +28,19 @@ export default class CreateStudent extends Component {
     onSubmit = (e) => {
         e.preventDefault();
 
-        console.log('student successfully created');
-        console.log(`student name : ${this.state.name} `);
-        console.log(`student email : ${this.state.email} `);
-        console.log(`roll no. : ${this.state.roll} `);
+        const studentObject = {
+            name: this.state.name,
+            email: this.state.email,
+            roll: this.state.roll
+        };
+
+        axios.post('http://localhost:4000/students/create-student', studentObject)
+            .then(res => console.log(res.data));
+
+        // console.log('student successfully created');
+        // console.log(`student name : ${this.state.name} `);
+        // console.log(`student email : ${this.state.email} `);
+        // console.log(`roll no. : ${this.state.roll} `);
 
         this.setState({
             name: '',
@@ -57,7 +67,7 @@ export default class CreateStudent extends Component {
 
                     <Form.Group controlId="roll">
                         <Form.Label> roll </Form.Label>
-                        <Form.Control type="text" value={this.state.roll} onChange={this.onChangeStudentRoll} />
+                        <Form.Control type="number" value={this.state.roll} onChange={this.onChangeStudentRoll} />
                     </Form.Group>
 
                     <Button variant="success" size='lg' block="block" type="submit">
